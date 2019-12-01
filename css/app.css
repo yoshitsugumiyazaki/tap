@@ -20,44 +20,23 @@ h1 {
   border-bottom: solid 3px black;
 }
 
-.btn-square:active {
-  /*ボタンを押したとき*/
-  -webkit-transform: translateY(4px);
-  transform: translateY(4px);/*下に動く*/
-  border-bottom: none;/*線を消す*/
-}
-.float {
+
+/* .cssgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 1fr;
+  grid-gap: 0.8em;
   border: 1px solid #ddd;
-  padding: 1%;
+  padding: 0.8em;
   margin: 0 0 2em;
-  width: auto;
-  overflow: hidden;
 }
 
-.float > div {
+.cssgrid > div {
   background: #ddd;
   overflow: auto;
+  min-width: 0;
   padding: 1em;
-  margin: 2% 2% 3%;
-}
-
-.float > div:last-child { margin: 2%; }
-
-@media screen and (min-width: 660px){
-  .float > div {
-    width: 48%;
-    margin: 1%;
-    float: left;
-  }
-
-  .float > div:last-child { margin: 1%; }
-}
-
-@media screen and (min-width: 990px){
-  .float > div {
-    width: 31.333333%;
-  }
-}
+} */
 .btn-square {
   /* display: inline-block; */
   display:block;
@@ -69,4 +48,10 @@ h1 {
   color: #FFF;
   border-bottom: solid 4px #627295;
   border-radius: 3px;
+}
+.btn-square:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);/*下に動く*/
+  border-bottom: none;/*線を消す*/
 }
