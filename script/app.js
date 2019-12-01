@@ -75,7 +75,7 @@ function quiz(correctNo) {
   var s, n;
   //問題
   //document.getElementById("text_q").innerHTML = (count + 1) + "問目：" + qa[count][0];
-  document.getElementById("text_q").innerHTML = qa[correctNo].product_detail;
+  document.getElementById("text_q").innerHTML = "<p>"+qa[correctNo].product_detail+"</p>";
 
   //選択肢
   document.getElementById("text_s1").innerHTML = "<a class='btn-square' href='javascript:anser(" + 0 + ")'>" + qa[0].product_name + "</a>";
