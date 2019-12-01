@@ -44,7 +44,7 @@ startBtn.addEventListener('click', () => {
 
     var request = new XMLHttpRequest();
  
-    request.open('GET', 'https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1u7TFoWtbeTS0PKKWKKXQ0RfdIgjbuzuQd53hCqOEuao&range=user!B3:E100', true);
+    request.open('GET', 'https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1JaOv-aQi13P6gco2AmnmXVxgyHmv6zLIBwZ810mjXes&range=user!A1:C100', true);
     request.responseType = 'json';
  
     request.onload = function () {

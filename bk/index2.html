@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script>
+    var request = new XMLHttpRequest();
+
+    request.open('GET', 'https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1JaOv-aQi13P6gco2AmnmXVxgyHmv6zLIBwZ810mjXes&range=A1:C370', true);
+    request.responseType = 'json';
+
+    request.onload = function () {
+      var data = this.response;
+      data.forEach( function(value){
+        console.log(value.url);
+        console.log(value.product_name);
+        console.log(value.product_detail);
+      }
+    )
+//      console.log(data);
+    };
+
+    request.send();
+  </script>
+  </head>
+  <body>
+  </body>
+</html>

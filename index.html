@@ -1,23 +1,164 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TAP10</title>
-<link rel="stylesheet" type="text/css" href="app.css">
+  <meta charset="utf-8">
+  <title>小林クイズ</title>
 </head>
+
 <body>
+  <h1>小林製薬　製品名当てクイズ</h1>
+  <hr>
+  <h2>問題</h2>
+  <div id="text_q"></div>
+  <h2>選択</h2>
+  <div id="text_s"></div>
+  <h2>解答</h2>
+  <div id="text_a"></div>
 
-<section class="container">
-  <h1 class="title">10秒で何回タップできるかaa</h1>
-  <button id="js-tapBtn" class="btn-tap" disabled>
-    <span id="js-count"></span><br>タップ!!
-  </button>
-  <div class="time">残り時間 <span id="js-time"></span> 秒</div>
-  <button id="js-startBtn" class="btn">START</button>
-</section>
+  <script type="text/javascript">
+    var request = new XMLHttpRequest();
 
-<script src="app.js"></script>
+    request.open('GET', 'https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1JaOv-aQi13P6gco2AmnmXVxgyHmv6zLIBwZ810mjXes&range=A1:C370', true);
+    request.responseType = 'json';
+
+    request.onload = function() {
+      var data = this.response;
+      data.forEach(function(value) {
+        // console.log(value.url);
+        // console.log(value.product_name);
+        // console.log(value.product_detail);
+      })
+      //      console.log(data);
+
+      var tmp = randomPick(data,3);
+      tmp.forEach(function(value) {
+        console.log(value.url);
+        console.log(value.product_name);
+        console.log(value.product_detail);
+      })
+
+      //tmp.sort(function() { Math.random() - .5; });
+      var correctNo = Math.floor( Math.random() * 3 );
+
+      qa = new Array();
+      console.log(correctNo);
+
+
+      qa[0] = [tmp[correctNo].product_detail, tmp[0].product_name, tmp[1].product_name, tmp[2].product_name, correctNo+1];
+      // qa[1] = ["クラゲを漢字で書くとどれ？", "水浮", "水母", "水星", 2];
+      // qa[2] = ["カタツムリを漢字で書くとどれ？", "禍牛", "鍋牛", "蝸牛", 3];
+      // qa[3] = ["バッタを漢字で書くとどれ？", "飛蝗", "飛蟻", "飛脚", 1];
+      // qa[4] = ["タツノオトシゴを英語にするとどれ？", "sea fish", "sea horse", "sea dragon", 2];
+      // qa[5] = ["マグロを英語にするとどれ？", "funa", "suna", "tuna", 3];
+      // qa[6] = ["トンボを英語にするとどれ？", "fly", "dragonfly", "butterfly", 2];
+      // qa[7] = ["ヒトデを英語にするとどれ？", "starfish", "starshell", "starmine", 1];
+      // qa[8] = ["恒星の中で最も明るい星は？", "デネブ", "スピカ", "シリウス", 3];
+      // qa[9] = ["惑星の中で最も重たいのはどれ？", "太陽", "木星", "天王星", 2];
+
+      //初期設定
+      q_sel = 3; //選択肢の数
+
+      setReady();
+
+      // var correct = Math.floor(Math.random() * data.length);
+      // var incorrect1 = 0;
+      // var incorrect2 = 0;
+      // do {
+      //   incorrect1 = Math.floor(Math.random() * data.length);
+      //   incorrect2 = Math.floor(Math.random() * data.length);
+      // } while (correct != incorrect1 && correct != incorrect2 && incorrect1 != incorrect2);
+      //
+      // console.log("correct: " + correct);
+      // console.log("incorrect1: " + incorrect1);
+      // console.log("incorrect2: " + incorrect2);
+
+    };
+    request.send();
+
+    //初期設定
+    function setReady() {
+      count = 0; //問題番号
+      ansers = new Array(); //解答記録
+
+      //最初の問題
+      quiz();
+    }
+
+    function randomPick(array, num){
+      var a = array;
+      var t = [];
+      var r = [];
+      var l = a.length;
+      var n = num < l ? num : l;
+      while (n-- > 0) {
+        var i = Math.random() * l | 0;
+        r[n] = t[i] || a[i];
+        --l;
+        t[i] = t[l] || a[l];
+      }
+      return r;
+    }
+
+    //問題表示
+    function quiz() {
+      var s, n;
+      //問題
+      document.getElementById("text_q").innerHTML = (count + 1) + "問目：" + qa[count][0];
+      //選択肢
+      s = "";
+      for (n = 1; n <= q_sel; n++) {
+        if (qa[count][n] != "") {
+          s += "【<a href='javascript:anser(" + n + ")'>" + n + "：" + qa[count][n] + "</a>】";
+        }
+      }
+      document.getElementById("text_s").innerHTML = s;
+    }
+
+    //解答表示
+    function anser(num) {
+      var s;
+      s = (count + 1) + "問目：";
+      //答え合わせ
+      if (num == qa[count][q_sel + 1]) {
+        //正解
+        ansers[count] = "○";
+      } else {
+        ansers[count] = "×";
+      }
+      s += ansers[count] + qa[count][num];
+      document.getElementById("text_a").innerHTML = s;
+
+      //次の問題を表示
+      count++;
+      if (count < qa.length) {
+        quiz();
+      } else {
+        //終了
+        s = "<table border='2'><caption>成績発表</caption>";
+        //1行目
+        s += "<tr><th>問題</th>";
+        for (n = 0; n < qa.length; n++) {
+          s += "<th>" + (n + 1) + "</th>";
+        }
+        s += "</tr>";
+        //2行目
+        s += "<tr><th>成績</th>";
+        for (n = 0; n < qa.length; n++) {
+          s += "<td>" + ansers[n] + "</td>";
+        }
+        s += "</tr>";
+        s += "</table>";
+        document.getElementById("text_q").innerHTML = s;
+        //次の選択肢
+        s = "【<a href='javascript:history.back()'>前のページに戻る</a>】";
+        s += "【<a href='javascript:setReady()'>同じ問題を最初から</a>】";
+        s += "【<a href=''>次の問題に進む</a>】";
+        document.getElementById("text_s").innerHTML = s;
+      }
+    }
+  </script>
+
 </body>
+
 </html>
