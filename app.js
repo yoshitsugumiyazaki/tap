@@ -42,25 +42,11 @@ startBtn.addEventListener('click', () => {
   }, 10)
 })
 
-const { google } = require('googleapis');
-const sheets = google.sheets('v4');
-const path = require('path');
-
-execAPI('1u7TFoWtbeTS0PKKWKKXQ0RfdIgjbuzuQd53hCqOEuao', 'user!B3:E100');
-
-async function execAPI(spreadsheetId, range) {
-  const auth = await google.auth.getClient({
-    keyFile: path.join(__dirname, 'service_account.json'),
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  });
-
-  const apiOptions = {
-    auth,
-    spreadsheetId,
-    range,
-  };
-
-  sheets.spreadsheets.values.get(apiOptions, (err, res) => {
-    console.log(res.data.values);
-  });
-}
+    var request = new XMLHttpRequest();
+ 
+    request.open('GET', 'https://asia-northeast1-sheetstowebapi.cloudfunctions.net/api?id=1u7TFoWtbeTS0PKKWKKXQ0RfdIgjbuzuQd53hCqOEuao&range=user!B3:E100', true);
+    request.responseType = 'json';
+ 
+    request.onload = function () {
+      var data = this.response;
+      console.log(data);
